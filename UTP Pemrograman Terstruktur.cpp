@@ -68,8 +68,33 @@ void BukaNote(string _judul){
     }
 }
 
-void HapusNote(){
-    cout << "Terhapus" << endl;
+void HapusNote(MyNote *_myNote){
+    MyNote *temp;
+    temp = myHeadNote;
+
+    if (temp -> nextNote == NULL)
+    {
+        delete _myNote;
+    }else{    
+        while (temp -> nextNote != NULL)
+        {
+            if(temp -> nextNote -> judul == _myNote -> judul){
+                break;
+            }
+
+            temp = temp -> nextNote;
+        }
+
+        temp -> nextNote = temp -> nextNote -> nextNote;
+        delete _myNote;
+    }    
+    
+    cout << "Note terhapus!" << endl;
+
+    totalMyNote--;
+    
+    cin.ignore();
+    cin.get();
 }
 
 void TulisNote(){
@@ -133,57 +158,14 @@ void TulisNote(){
     cout << "Pilihan anda : "; cin >> pilihan;
 
     if(pilihan == 1){
-        HapusNote();
+        HapusNote(myNote);
     }else{
     	totalMyNote++;
 	}
 }
 
 void BukaNoteList(){
-    MyNote *myNote;
-	int pilihanNote = 0;
-	string simpan[totalMyNote];
     cout << "------------------------------Note List------------------------------" << endl << endl;
-    if(IsEmpty()){
-    	cout << "Belum Ada Note";
-	}
-	else {
-		MyNote *bantu;
-    
-    bantu = myHeadNote;
-
-    if(!IsEmpty()){
-        if(bantu -> nextNote == NULL){
-            cout << pilihanNote + 1 << ". " <<bantu -> judul << endl;
-            cout << "Pass" << endl;
-            simpan[pilihanNote] = bantu -> judul;
-        }else{
-            while(bantu != NULL){
-                cout << pilihanNote + 1 << ". "<< bantu -> judul << endl;
-                cout << "Pass2" << endl;
-				simpan[pilihanNote] = bantu -> judul;
-				bantu = bantu -> nextNote;
-                pilihanNote++;
-            }
-            
-        }
-    }
-//		while(myNote -> judul != NULL){
-//			i++;
-//    		cout << i << ". " << myNote -> judul << endl;
-//    		myNote = myNote -> nextNote;
-//		}
-		cout << "Masukan Nomor Note untuk Membuka :";
-		cin >> pilihanNote;
-		BukaNote(simpan[pilihanNote - 1]);
-//		for(int i = 0; i < myNote -> totalNote; i++){
-//    		myNote = myNote -> nextNote;
-//    		if(i == pilihan){
-//    			cout << myNote -> note;
-//			}
-//		}
-		
-	}
 }
 
 void CariNote(){
