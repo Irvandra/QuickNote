@@ -46,29 +46,6 @@ bool IsEmpty(){
     return false;
 }
 
-void BukaNote(string _judul){
-    MyNote *myNote;
-    int totalNote;
-
-    myNote = myHeadNote;
-
-    while (myNote -> judul != _judul)
-    {
-        myNote = myNote -> nextNote;
-    }
-    
-    if(myNote -> judul == _judul){
-        cout << "------------------------------" << myNote -> judul << "------------------------------" << endl << endl;
-
-        totalNote = myNote -> totalBarisNote;
-
-        for (int i = 0; i < totalNote; i++)
-        {
-            cout << myNote -> note[i] << endl;
-        }
-    }
-}
-
 void HapusNote(MyNote *_myNote){
     MyNote *temp;
     temp = myHeadNote;
@@ -98,6 +75,40 @@ void HapusNote(MyNote *_myNote){
     
     cin.ignore();
     cin.get();
+}
+
+void BukaNote(string _judul){
+    MyNote *myNote;
+    int totalNote, pilihan;
+
+    myNote = myHeadNote;
+
+    while (myNote -> judul != _judul)
+    {
+        myNote = myNote -> nextNote;
+    }
+    
+    if(myNote -> judul == _judul){
+        cout << "------------------------------" << myNote -> judul << "------------------------------" << endl << endl;
+
+        totalNote = myNote -> totalBarisNote;
+
+        for (int i = 0; i < totalNote; i++)
+        {
+            cout << myNote -> note[i] << endl;
+        }
+    }
+    
+    	
+    cout << endl;
+    cout << "1. Hapus Note" << endl;
+    cout << "2. Kembali ke Menu" << endl;
+    cout << "Pilihan anda : "; cin >> pilihan;
+    
+    if(pilihan == 1){
+		HapusNote(myNote);
+    	//totalMyNote--;
+	}
 }
 
 void TulisNote(){
@@ -169,7 +180,41 @@ void TulisNote(){
 }
 
 void BukaNoteList(){
+    MyNote *myNote;
+	int pilihanNote = 0, pilihan;
+	string simpan[totalMyNote];
     cout << "------------------------------Note List------------------------------" << endl << endl;
+    
+	if(IsEmpty()){
+    	cout << "Belum Ada Note" << endl;
+        cin.ignore();
+        cin.get();
+	}
+	else {
+		MyNote *bantu;
+    	bantu = myHeadNote;
+    	
+		if(!IsEmpty()){
+        	if(bantu -> nextNote == NULL){
+            	cout << pilihanNote + 1 << ". " << bantu -> judul << endl;
+            	cout << "Pass" << endl;
+            	simpan[pilihanNote] = bantu -> judul;
+        	}else{
+            	while(bantu != NULL){
+                	cout << pilihanNote + 1 << ". "<< bantu -> judul << endl;
+                	cout << "Pass2" << endl;
+					simpan[pilihanNote] = bantu -> judul;
+					bantu = bantu -> nextNote;
+                	pilihanNote++;
+            	}
+        	}
+    	}
+		cout << "\nMasukan Nomor Note untuk Membuka :";
+		cin >> pilihanNote;
+		system("cls");
+	
+		BukaNote(simpan[pilihanNote - 1]);
+	}
 }
 
 void CariNote(){
