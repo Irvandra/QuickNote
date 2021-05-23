@@ -65,7 +65,7 @@ void HapusNote(MyNote *_myNote){
             temp = temp -> nextNote;
         }
 
-        myHeadNote -> nextNote = temp -> nextNote -> nextNote;
+        temp -> nextNote = temp -> nextNote -> nextNote;
         delete _myNote;
     }    
 
@@ -107,7 +107,6 @@ void BukaNote(string _judul){
     
     if(pilihan == 1){
 		HapusNote(myNote);
-    	//totalMyNote--;
 	}
 }
 
@@ -119,7 +118,6 @@ void TulisNote(){
     MyNote *myNote, *findLastNote;
     string note[100];
     string judul, text;
-    int totalNote = 0;
     int pilihan;
 
     cout << "Judul Note : ";
@@ -135,10 +133,9 @@ void TulisNote(){
         
         note[i] = text;
         myNote -> SaveNote(text);
-        totalNote = i;
 
         if(i == 98){
-            note[i] = "END";
+            note[i + 1] = "END";
             cout << "END" << endl;
         }else if(text == "END"){
             i = 100;
@@ -198,12 +195,10 @@ void BukaNoteList(){
 		if(!IsEmpty()){
         	if(bantu -> nextNote == NULL){
             	cout << pilihanNote + 1 << ". " << bantu -> judul << endl;
-            	cout << "Pass" << endl;
             	simpan[pilihanNote] = bantu -> judul;
         	}else{
             	while(bantu != NULL){
                 	cout << pilihanNote + 1 << ". "<< bantu -> judul << endl;
-                	cout << "Pass2" << endl;
 					simpan[pilihanNote] = bantu -> judul;
 					bantu = bantu -> nextNote;
                 	pilihanNote++;
