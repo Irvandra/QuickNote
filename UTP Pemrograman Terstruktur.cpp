@@ -1,5 +1,5 @@
 #include <iostream>
-#include <algorithm>
+//#include <algorithm>
 #include <cstring>
 
 using namespace std;
@@ -183,6 +183,7 @@ void BukaNoteList(){
     MyNote *myNote;
 	int pilihanNote = 0, pilihan;
 	string simpan[totalMyNote];
+    string *ptrSimpan[totalMyNote];
     cout << "------------------------------Note List------------------------------" << endl << endl;
     
 	if(IsEmpty()){
@@ -207,13 +208,19 @@ void BukaNoteList(){
 					bantu = bantu -> nextNote;
                 	pilihanNote++;
             	}
+                
+                for (int i = 0; i < totalMyNote; i++)
+                {
+                    ptrSimpan[i] = &simpan[i];
+                }
         	}
-    	}
+    	}        
+
 		cout << "\nMasukan Nomor Note untuk Membuka :";
 		cin >> pilihanNote;
 		system("cls");
 	
-		BukaNote(simpan[pilihanNote - 1]);
+		BukaNote(*ptrSimpan[pilihanNote - 1]);
 	}
 }
 
