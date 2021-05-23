@@ -1,5 +1,6 @@
 #include <iostream>
 #include <algorithm>
+#include <cstring>
 
 using namespace std;
 
@@ -7,7 +8,7 @@ class MyNote{
 public:
     string note[100];
     string judul;
-    int totalNote = 0;
+    int totalBarisNote = 0;
     MyNote *nextNote;
 
     MyNote(string _judul){
@@ -15,14 +16,14 @@ public:
     }
     
     void SaveNote(string _text){
-        note[totalNote] = _text;
-        totalNote++;
+        note[totalBarisNote] = _text;
+        totalBarisNote++;
 	}
 
     void ShowNote(){
         cout << "------------------------------" << judul << "------------------------------" << endl << endl;
 
-        for (int i = 0; i < totalNote; i++)
+        for (int i = 0; i < totalBarisNote; i++)
         {
             cout << note[i] << endl;
         }        
@@ -59,7 +60,7 @@ void BukaNote(string _judul){
     if(myNote -> judul == _judul){
         cout << "------------------------------" << myNote -> judul << "------------------------------" << endl << endl;
 
-        totalNote = myNote -> totalNote;
+        totalNote = myNote -> totalBarisNote;
 
         for (int i = 0; i < totalNote; i++)
         {
@@ -75,6 +76,8 @@ void HapusNote(MyNote *_myNote){
     if (temp -> nextNote == NULL)
     {
         delete _myNote;
+    
+        myHeadNote = NULL;
     }else{    
         while (temp -> nextNote != NULL)
         {
@@ -85,10 +88,10 @@ void HapusNote(MyNote *_myNote){
             temp = temp -> nextNote;
         }
 
-        temp -> nextNote = temp -> nextNote -> nextNote;
+        myHeadNote -> nextNote = temp -> nextNote -> nextNote;
         delete _myNote;
     }    
-    
+
     cout << "Note terhapus!" << endl;
 
     totalMyNote--;
@@ -108,10 +111,11 @@ void TulisNote(){
     int totalNote = 0;
     int pilihan;
 
-    cout << "Judul Note : "; cin >> judul;
+    cout << "Judul Note : ";
+	cin.ignore();
+	getline(cin, judul);
     cout << "My Note : " << endl;
     
-    cin.ignore();
     myNote = new MyNote(judul);
     
     for (int i = 0; i < 100; i++)
@@ -170,6 +174,46 @@ void BukaNoteList(){
 
 void CariNote(){
     cout << "------------------------------Find Note------------------------------" << endl << endl;
+    MyNote *myNote;
+    string judul;
+    bool ditemukan = false;
+
+    myNote = myHeadNote;
+
+	cin.ignore();
+    getline(cin, judul);
+
+    while (myNote != NULL)
+    {
+        if (strcmp(judul.c_str(), myNote -> judul.c_str()) == 0)
+        {
+        	ditemukan = true;
+            break;
+        }
+        
+
+        myNote = myNote -> nextNote;
+    }
+    
+    if(ditemukan){
+        system("CLS");
+        BukaNote(judul);
+
+        int pilihan;
+
+        cout << endl;
+        cout << "1. Hapus Note" << endl;
+        cout << "2. Kembali ke Menu" << endl;
+        cout << "Pilihan anda : "; cin >> pilihan;
+
+        if(pilihan == 1){
+            HapusNote(myNote);
+        }
+	}else{
+		cout << "Judul tidak ditemukan!" << endl;
+    
+        cin.get();
+	}
 }
 
 int main(){
